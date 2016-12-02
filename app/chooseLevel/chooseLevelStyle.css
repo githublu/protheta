@@ -1,0 +1,110 @@
+@font-face {
+    font-family: BubblegumSans;
+    src: url(../../fonts/Boogaloo-Regular.otf);
+}
+
+.chooseLevel .row
+{
+    margin-top: 1rem;
+    margin-bottom: 24px;
+	overflow: hidden;
+    height: 146px;
+}
+
+.chooseLevel .title
+{
+	width: 246px;
+	height: 60px;
+	font-family: BubblegumSans;
+	font-size: 35px;
+	text-align: center;
+	margin: 0px auto;
+}
+
+.chooseLevel .levelText
+{
+	font-family: BubblegumSans;
+	font-size: 30px;
+	font-weight: 400;
+	color: #000000;
+	word-wrap: break-word;
+	display: inline-block;
+	float: left;
+}
+
+.chooseLevel .card
+{
+	display: inline-block;
+    height: 124px;
+    width: 250px;
+	border-radius: 8px;
+	background-color: #ffffff;
+	box-shadow: 0 0 4px 0 rgba(31, 121, 195, 0.5);
+	border: solid 3px #3da3f6;
+	padding: 10px 10px 10px 20px;
+    margin-right: 20px;	
+    cursor: pointer;
+}
+
+.chooseLevel .stars
+{
+    width: 90px;
+    height: 32px;
+    background-size: contain;
+    background-repeat: no-repeat;
+    display: inline-block;
+    margin-left: 10px;
+    float: left;
+}
+
+.chooseLevel .s3
+{
+	background-image:url(../../assets/star3.png);
+}
+
+.chooseLevel .s2
+{
+	background-image:url(../../assets/star2.png);
+}
+
+.chooseLevel .s1
+{
+	background-image:url(../../assets/star1.png);
+}
+
+.chooseLevel .theme
+{
+	background-size: contain;
+    display: inline-block;
+	width: 124px;
+    height: 124px;
+	float: left;    
+    background-repeat: no-repeat;
+}
+
+.chooseLevel .theme1
+{
+	background-image:url(../../assets/theme1.png);
+}
+
+.chooseLevel .theme2
+{
+	background-image:url(../../assets/theme2.png);
+}
+
+.chooseLevel .theme3
+{
+	background-image:url(../../assets/theme3.png);
+}
+
+.chooseLevel .theme4
+{
+	background-image:url(../../assets/theme4.png);
+}
+
+.chooseLevel .scrollrow
+{
+	overflow-x: scroll;
+	white-space:nowrap;
+	padding-bottom: 18px;
+}

@@ -1,0 +1,136 @@
+@font-face {
+    font-family: BubblegumSans;
+    src: url(../../fonts/Boogaloo-Regular.otf);
+}
+
+.start .board
+{
+	width: 741px;
+}
+
+.start .bc
+{
+	margin-top: 20px;
+}
+.start .tutorial
+{
+  font-family: BubblegumSans;
+  font-size: 25px;
+  font-weight: 400;
+  color: #000000;
+  word-wrap: break-word;
+}
+
+.start .asset1
+{
+	width: 285px;
+	height: 111px;
+	object-fit: contain;
+	background-image: url('../../assets/start_1.png');
+	background-size: cover;
+	position: relative;
+	margin: 0px auto;
+	margin-top: 14px;
+}
+
+.start .asset2
+{
+	width: 290px;
+	height: 121px;
+	object-fit: contain;
+	background-image: url('../../assets/start_2.png');
+	background-size: cover;
+	position: relative;
+	margin: 0px auto;
+	margin-top: 14px;
+}
+
+.start .asset3
+{
+	width: 290px;
+	height: 106px;
+	object-fit: contain;
+	background-image: url('../../assets/start_3.png');
+	background-size: cover;
+	position: relative;
+	margin: 0px auto;
+	margin-top: 14px;
+}
+
+.start .startbtn
+{
+	width: 247px;
+	height: 82px;
+	object-fit: contain;
+	background-image: url('../../assets/startbtn.png');
+	background-size: cover;
+	display: inline-block;
+	margin-top: 50px;
+	cursor: pointer;
+}
+
+.start .loginbtn
+{
+	width: 247px;
+	height: 82px;
+	object-fit: contain;
+	background-image: url('../../assets/loginbtn.png');
+	background-size: cover;
+	display: inline-block;
+	float: right;
+	margin-top: 50px;
+	cursor: pointer;
+}
+
+.start .line2
+{
+	margin-top: 14px;
+}
+
+.start .line3
+{
+	margin-top: 14px
+}
+
+@media (max-width : 415px) 
+{
+	.start .board
+	{
+		width: auto;
+	}
+
+	.start .tutorial
+	{
+	  font-size: 17px;
+	}
+
+	.start .asset1
+	{
+		width: 152px;
+		height: 60px;
+	}
+
+	.start .asset2
+	{
+		width: 137px;
+		height: 57px;
+	}
+
+	.start .asset3
+	{
+		width: 137px;
+		height: 50px;
+	}
+
+	.start .startbtn
+	{
+		width: 118px;
+		height: 40px;
+	}
+
+	.start .loginbtn
+	{
+		width: 127px;
+		height: 40px;
+	}
+}

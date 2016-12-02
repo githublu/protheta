@@ -28,6 +28,9 @@
 # Bin folder
 bin/*
 
+#vscode
+.vscode/*
+
 #xcode
 .DS_Store
 

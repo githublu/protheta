@@ -1,0 +1,198 @@
+.ans 
+{
+	position: absolute;
+	height: 0px;
+    left: 50%;
+}
+
+.game .showBox
+{
+	display: block;
+}
+.game .modal-body
+{
+	padding-bottom: 0px;
+}
+
+.gameText
+{
+  font-family: BubblegumSans;
+  font-size: 35px;
+  margin-top: 0px;
+}
+
+.showBoard
+{
+	height: 20px;
+	background-color: #f5a623;
+	border-radius: 5px;
+	text-align: center;
+	color: white;
+}
+
+.backImg
+{
+    background-size: cover;
+    display: inline-block
+}
+
+.option
+{
+	width: 90px;
+    height: 90px;
+}
+.questionRow
+{
+    margin: auto;
+    width: 364px;
+    max-width: 100%;
+}
+
+.question
+{
+	width: 180px;
+  height: 180px;
+}
+
+.navbar a
+{
+  cursor: pointer;
+}
+
+.gameBody
+{
+	background-color: rgba(193,191,194, 0.57);
+}
+
+.game .startNewGame
+{
+  position: fixed;
+  top: 155px;
+  width: 100%;
+  height: 100%;
+  left: 0px;
+}
+.game .score
+{
+  width: 164px;
+  height: 46px;
+  object-fit: contain;
+  font-family: BubblegumSans;
+  font-size: 40px;
+  font-weight: normal;
+  font-style: normal;
+  font-stretch: normal;
+  text-align: left;
+  color: #000000;
+  float: left;
+  display: inline-block;
+}
+
+.game .timer
+{
+	width: 60px;
+	height: 96px;
+	object-fit: contain;
+	background-image: url('../../assets/timer.png');
+	background-size: cover;
+	float: right;
+}
+
+.game .timer .time
+{
+	font-family: BubblegumSans;
+	font-size: 40px;
+	margin-top: 34px;
+	text-align: center;
+	color: #FFA500;
+}
+
+.ans0
+{
+	position: relative;
+    left: -170%;
+    margin-top: 213px;
+}
+
+.ans1
+{
+	position: relative;
+    left: -123%;
+    margin-top: 115px;
+}
+
+.ans2
+{
+	position: relative;
+    left: -50%;
+    margin-top: 21px;
+}
+
+.ans3
+{
+	position: relative;
+    left: 23%;
+    margin-top: 115px;
+}
+
+.ans4
+{
+	position: relative;
+    left: 76%;
+    margin-top: 213px;
+}
+
+@media (max-width : 415px) 
+{
+  .question
+  {
+    width: 148px;
+    height: 148px;
+  }
+  .game .score
+  {
+    font-size: 35px;
+    width: 144px;
+  }
+  .game .timer 
+  {
+    width: 45px;
+    height: 72px;
+  }
+  .game .timer .time
+  {
+    font-size: 35px;
+    margin-top: 22px;
+  }
+  .questionRow
+  {
+    width: 300px;
+  }
+  .ans
+  {
+    margin-top: 50px;
+  }
+}
+
+@media (max-width : 350px) 
+{
+  .game .score
+  {
+    font-size: 30px;
+    width: 126px;
+  }
+  .game .timer 
+  {
+    width: 40px;
+    height: 62px;
+  }
+  .game .timer .time
+  {
+    font-size: 30px;
+    margin-top: 21px;
+  }
+  .ans
+  {
+    margin-top: -10px;
+  }
+}

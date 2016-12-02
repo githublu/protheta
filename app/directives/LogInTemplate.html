@@ -1,0 +1,124 @@
+﻿<div class="modal" id="LogInModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+    <div class="modal-dialog" role="document">
+        <div class="tab-content" id="tab1" ng-hide="ShowLogInTab">
+            <div class="input-wrapper">
+                <input class="input" name="name" placeholder="Name" id="name" autocomplete="off" ng-model="name"/>
+            </div>
+            <div class="input-wrapper">
+                <input class="input" name="name" placeholder="Email" id="email" autocomplete="off" ng-model="email"/>
+            </div>
+            <div class="input-wrapper">
+                <input class="input" name="name" placeholder="Password" type="password" id="password" autocomplete="off" ng-model="password"/>
+            </div>
+            <div class="input-wrapper fail" id="fails" ng-show="signUpError">
+                {{signUpMsg}}
+            </div>
+            <div class="input-wrapper">
+                <button class="submit input signup" name="name" type="submit" ng-click="SignUp(name, email, password)">Sign Up</button>
+                <p class="altText logInText input" ng-click="ShowLogIn()">Log In</p>
+            </div>
+        </div>
+
+        <div class="tab-content" id="tab2" ng-show="ShowLogInTab">
+                <div class="input-wrapper">
+                    <input class="input" name="email" id = "username" placeholder="Name" ng-model="name" />
+                </div>
+                <div class="input-wrapper">
+                    <input class="input" name="password" id="pass" type="password" placeholder="Password" ng-model="password"/>
+                </div>
+                <div class="input-wrapper fail" id="faill" ng-show="logInError">
+                    {{logInMessage}}
+                </div>
+                <br>
+                <div class="input-wrapper">
+                    <button class="submit input" type="submit" ng-click="LogIn(name, password)">Log In</button>
+                    <p class="altText signUpText input" ng-click="ShowSignUp()">Sign Up</p>
+                </div>
+        </div>
+    </div>
+</div>
+
+<style>
+.inner-wrapper
+{
+    width: 740px;
+    margin: 0 auto;
+}
+.tabs-nav li a.active 
+{
+    border-top: 4px solid #fe7360;
+}
+
+.tab-content .input-wrapper
+{
+    margin-top: 18px;
+}
+.tab-content
+{
+    width: 182px;
+    margin: 0px auto;
+}
+.tab-content .altText
+{
+    margin:0px auto;
+    text-align: center;
+    margin-top: 10px;
+    font-size: 15px;
+    cursor: pointer;
+}
+
+.tab-content .logInText
+{
+    color: #000000;
+    background-color: rgba(128, 195, 247, 0.4);
+    border: none;
+}
+
+.tab-content .signUpText
+{
+    color: #ffffff;
+    background-color: rgba(68, 157, 68, 0.4);
+    border: none;
+}
+
+.input
+{
+    background: #e7f1f8;
+    font-size: 15px;
+    border: 1px solid #003e70;
+    border-radius: 5px;
+    padding: 8px 10px;
+    box-shadow: inset 0 1px 2px rgba(15,82,135,.25),0 1px 0 rgba(255,255,255,.15);
+    width: 182px;
+    margin: 0px auto;
+    color: #555;
+    line-height: 17px;
+}
+.tab-content .submit
+{
+    width:182px;
+    background: -webkit-gradient(linear,left top,left bottom,from(#80c3f7),to(#6bbaf8));
+    box-shadow: inset 0 1px 0 rgba(255,255,255,.3),0 1px 1px rgba(50,50,50,.05);
+    cursor:pointer;
+}
+.tab-content .input-wrapper .signup
+{
+    background: #449d44;
+    border: none;
+    color: white;
+}
+.fail
+{
+    display:none;
+    padding: 10px;
+display: block;
+border-radius: 4px;
+font-size: 13px;
+margin: 18px 0 0;
+width: 182px;
+color: #fff;
+text-shadow: 0 1px 1px rgba(0,0,0,.15);
+background: rgba(130,200,255,.2);
+}
+
+</style>
