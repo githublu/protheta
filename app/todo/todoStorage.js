@@ -77,7 +77,7 @@ angular.module('MinionCraft')
 				return null;
 			},
 
-			insert: function (todo) {
+			insert: function (key, todo) {
 				var originalTodos = store.todos.slice(0);
 
 				return $http.post('/api/todos', todo)
@@ -113,19 +113,20 @@ angular.module('MinionCraft')
 		var STORAGE_ID = 'todos-angularjs';
 
 		var store = {
+			todo: {},
 			todos: [],
 			todoKeys: [],
 
-			_getFromLocalStorage: function () {
-				return JSON.parse(localStorage.getItem(STORAGE_ID) || '[]');
+			_getFromLocalStorage: function (key) {
+				return JSON.parse(localStorage.getItem(key) || '[]');
 			},
 
 			_deleteFromLocalStorage: function () {
 				return JSON.parse(localStorage.removeItem(STORAGE_ID) || '[]');
 			},
 
-			_saveToLocalStorage: function (todos) {
-				localStorage.setItem(STORAGE_ID, JSON.stringify(todos));
+			_saveToLocalStorage: function (key, todos) {
+				localStorage.setItem(key, JSON.stringify(todos));
 			},
 
 			clearCompleted: function () {
@@ -160,10 +161,10 @@ angular.module('MinionCraft')
 				return deferred.promise;
 			},
 
-			get: function () {
+			get: function (key) {
 				var deferred = $q.defer();
 
-				angular.copy(store._getFromLocalStorage(), store.todos);
+				angular.copy(store._getFromLocalStorage(key), store.todo);
 				deferred.resolve(store.todos);
 
 				return deferred.promise;
@@ -173,20 +174,20 @@ angular.module('MinionCraft')
 				var deferred = $q.defer();
 				for(var i=0, len=localStorage.length; i<len; i++) {
 					var key = localStorage.key(i);
-				    store.todoKeys.push(key, localStorage[key]);
-				    store.todos.push(localStorage[key]);
+				    store.todoKeys[key] = localStorage[key];
+    				store.todos.push(localStorage[key]);
 				}
 				deferred.resolve(store.todos);
 
 				return deferred.promise;
 			},
 
-			insert: function (todo) {
+			insert: function (key, todo) {
 				var deferred = $q.defer();
 
-				store.todos.push(todo);
+				store.todos[key] = todo;
 
-				store._saveToLocalStorage(store.todos);
+				store._saveToLocalStorage(key, todo);
 				deferred.resolve(store.todos);
 
 				return deferred.promise;
@@ -197,7 +198,7 @@ angular.module('MinionCraft')
 
 				store.todos[index] = todo;
 
-				store._saveToLocalStorage(store.todos);
+				store._saveToLocalStorage(index, todo);
 				deferred.resolve(store.todos);
 
 				return deferred.promise;

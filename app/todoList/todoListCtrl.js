@@ -6,16 +6,54 @@
  * - exposes the model to the template and provides event handlers
  */
 angular.module('MinionCraft')
-	.controller('TodoListCtrl', function TodoCtrl($scope, $routeParams, $filter, store) {
+	.controller('TodoListCtrl', function TodoListCtrl($scope, $routeParams, $filter, $location, $http, store) {
 		'use strict';
 
-		var todos = $scope.todos = store.todos;
-		var todoKeys = store.todoKeys;
-		console.log(todos);
-		console.log(todoKeys);
-		$scope.newTodo = '';
-		$scope.editedTodo = null;
+		var params = $location.search();
+        $scope.id = params.id;
+
+        store.get($scope.id);
+        var todo = {};
+        todo = store.todo;
+        todo.key = $scope.id;
+		todo.title = todo.title;
+		
+        var tag = todo.title.split("#");
+        var newTitle = tag[0];
+        if (todo.title.charAt(0) != '#') 
+        {
+        	tag.splice(0, 1);
+        }
+        
+        todo.newTitle = newTitle;
+        todo.tag = tag;
+        $scope.todo = todo;
+
+        // get player name
+      	$http({
+            method : "POST",
+            url : "./functions/getWebApp.php",
+            data : { 'action': 'GetWebApp',
+        			 'tag': JSON.stringify(todo.tag)}
+          })
+        .then(function mySucces(response) {
+        	console.log(response.data);
+          }, 
+          function myError(response) {
+            console.log(response);
+        }); 
+
 		$scope.status = '';
+
+		$scope.toggleCompleted = function (todo, completed) {
+			if (angular.isDefined(completed)) {
+				todo.completed = completed;
+			}
+			store.put(todo, todo.key)
+				.then(function success() {}, function error() {
+					todo.completed = !todo.completed;
+				});
+		};
 
 		$scope.editTodo = function (todo) {
 			$scope.editedTodo = todo;

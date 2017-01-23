@@ -9,11 +9,21 @@ angular.module('MinionCraft')
 	.controller('TodoCtrl', function TodoCtrl($scope, $routeParams, $filter, store) {
 		'use strict';
 
-		var todos = $scope.todos = store.todos;
+		var todos = $scope.todos = [];// store.todos;
+		//var todoKeys = store.todoKeys;
+		for(var key in store.todoKeys)
+		{
+			var todo = JSON.parse(store.todoKeys[key]);
+			todo.key = key;
+			console.log(todo);
+			todos.push(todo);
+		}
+
 		$scope.newTodo = '';
 		$scope.editedTodo = null;
 		$scope.status = '';
 
+		console.log(todos);
 		$scope.$watch('todos', function () {
 			$scope.remainingCount = $filter('filter')(todos, { completed: false }).length;
 			$scope.completedCount = todos.length - $scope.remainingCount;
@@ -48,7 +58,8 @@ angular.module('MinionCraft')
 			}
 
 			$scope.saving = true;
-			store.insert(newTodo)
+			var newKey = guid();
+			store.insert(newKey, newTodo)
 				.then(function success() {
 					$scope.newTodo = '';
 				})
@@ -114,7 +125,7 @@ angular.module('MinionCraft')
 			if (angular.isDefined(completed)) {
 				todo.completed = completed;
 			}
-			store.put(todo, todos.indexOf(todo))
+			store.put(todo, todo.key)
 				.then(function success() {}, function error() {
 					todo.completed = !todo.completed;
 				});
@@ -135,5 +146,16 @@ angular.module('MinionCraft')
 		$scope.goTodo = function (todo)
 		{
 			console.log(todo);
+			window.location = "#/todoList?id=" + todo;
+		}
+
+		function guid() {
+		  function s4() {
+		    return Math.floor((1 + Math.random()) * 0x10000)
+		      .toString(16)
+		      .substring(1);
+		  }
+		  return s4() + s4() + '-' + s4() + '-' + s4() + '-' +
+		    s4() + '-' + s4() + s4() + s4();
 		}
 	});
