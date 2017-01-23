@@ -1,0 +1,31 @@
+.setting .name
+{
+    display: inline-block;
+    margin-left: 10px;
+}
+.setting .avatar
+{
+    height: 60px;
+    width: 60px;
+    border: 1px solid black;
+    display: inline-block;
+    margin-bottom: -14px;
+}
+.setting .topbar
+{
+    float: right;
+    margin-top: 30px;
+}
+.setting .list-group-item-heading
+{
+    font-size: 18px;
+    font-family: inherit;
+    font-weight: 500;
+    line-height: 1.1;
+}
+
+.setting .list-group-item-text
+{
+    float: right;
+    margin-right: 40px;
+}

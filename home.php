@@ -6,7 +6,7 @@
 
     <!-- Style sheets -->
 <link rel="stylesheet" type="text/css" href="./app/game/gameStyle.css">
-<link rel="stylesheet" type="text/css" href="css/bootstrap.min.css">
+<link rel="stylesheet" type="text/css" href="./css/bootstrap.min.css">
 <link rel="stylesheet" type="text/css" href="./app/start/startStyle.css">
 <link rel="stylesheet" type="text/css" href="./app/chooseLevel/chooseLevelStyle.css">
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
@@ -33,6 +33,9 @@
     <!-- Controllers -->
     <script src="app/directives/LogInCtrl.js"></script>
     <script src="app/directives/NavBarCtrl.js"></script>
+    <script src="app/todo/todoCtrl.js"></script>
+    <script src="app/todo/todoStorage.js"></script>
+    <script src="app/todoList/todoListCtrl.js"></script>
 </body>
 
 </html>
