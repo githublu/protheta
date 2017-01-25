@@ -16,8 +16,8 @@ angular.module('MinionCraft')
         var todo = {};
         todo = store.todo;
         todo.key = $scope.id;
-		todo.title = todo.title;
-		
+		var title = todo.title;
+
         var tag = todo.title.split("#");
         var newTitle = tag[0];
         if (todo.title.charAt(0) != '#') 
@@ -28,6 +28,8 @@ angular.module('MinionCraft')
         todo.newTitle = newTitle;
         todo.tag = tag;
         $scope.todo = todo;
+        $scope.needsSave = false;
+        $scope.apps = {};
 
         // get player name
       	$http({
@@ -38,12 +40,23 @@ angular.module('MinionCraft')
           })
         .then(function mySucces(response) {
         	console.log(response.data);
+        	$scope.apps = response.data;
           }, 
           function myError(response) {
             console.log(response);
         }); 
 
 		$scope.status = '';
+		$scope.changeFunction=function()
+		{
+			if (title != $scope.todo.title) {
+				$scope.needsSave = true;
+			}
+			else
+			{
+				$scope.needsSave = false;
+			}
+		}
 
 		$scope.toggleCompleted = function (todo, completed) {
 			if (angular.isDefined(completed)) {
@@ -53,6 +66,12 @@ angular.module('MinionCraft')
 				.then(function success() {}, function error() {
 					todo.completed = !todo.completed;
 				});
+		};
+
+		$scope.removeTodo = function (todo) {
+			store.delete(todo);
+			$('.modal-backdrop').remove();
+			window.location = "#/todo";
 		};
 
 		$scope.editTodo = function (todo) {
@@ -92,4 +111,21 @@ angular.module('MinionCraft')
 					$scope.editedTodo = null;
 				});
 		};
+		$('textarea').val($scope.todo.title);
+		$('textarea').each(function () {
+			  this.setAttribute('style', 'height:' + (this.scrollHeight+ 50) + 'px;overflow-y:hidden;');
+			}).on('input', function () {
+			  this.style.height = 'auto';
+			  this.style.height = (this.scrollHeight) + 'px';
+			});
+
+			     //    var textarea = null;
+        // window.addEventListener("load", function() {
+        //     textarea = window.document.querySelector("textarea");
+        //     textarea.addEventListener("keypress", function() {
+        //         if(textarea.scrollTop != 0){
+        //             textarea.style.height = textarea.scrollHeight + "px";
+        //         }
+        //     }, false);
+        // }, false);
 	});

@@ -121,8 +121,8 @@ angular.module('MinionCraft')
 				return JSON.parse(localStorage.getItem(key) || '[]');
 			},
 
-			_deleteFromLocalStorage: function () {
-				return JSON.parse(localStorage.removeItem(STORAGE_ID) || '[]');
+			_deleteFromLocalStorage: function (key) {
+				return JSON.parse(localStorage.removeItem(key) || '[]');
 			},
 
 			_saveToLocalStorage: function (key, todos) {
@@ -136,15 +136,10 @@ angular.module('MinionCraft')
 				var incompleteTodos = [];
 				store.todos.forEach(function (todo) {
 					if (todo.completed) {
-						completeTodos.push(todo);
-					} else {
-						incompleteTodos.push(todo);
+						store.delete(todo);
 					}
 				});
-
-				angular.copy(incompleteTodos, store.todos);
-
-				store._saveToLocalStorage(store.todos);
+				
 				deferred.resolve(store.todos);
 
 				return deferred.promise;
@@ -155,7 +150,7 @@ angular.module('MinionCraft')
 
 				store.todos.splice(store.todos.indexOf(todo), 1);
 
-				store._saveToLocalStorage(store.todos);
+				store._deleteFromLocalStorage(todo.key);
 				deferred.resolve(store.todos);
 
 				return deferred.promise;

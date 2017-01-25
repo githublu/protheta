@@ -1,7 +1,7 @@
 <?php
 session_start();
 
-require_once('./dbConnection.php');
+require_once('./dbProthetaConnection.php');
 // **************************initialize***************************************
 $method = $_SERVER['REQUEST_METHOD'];
 
@@ -20,8 +20,65 @@ if(isset($_COOKIE["UserId"]))
 
 if ($method == 'POST' && $action == 'GetWebApp')
 {
+	$apps = array();
 	$tag = json_decode($request->tag);
-	echo $tag;
+	foreach ($tag as $key => $value) {
+		$apps = array_merge($apps, GetWebApp($value));
+	}
+
+	$apps = array_unique($apps, SORT_REGULAR);
+	echo json_encode($apps);
+}
+
+function GetWebApp($word)
+{
+	$conn = new mysqli( $GLOBALS['servername'], $GLOBALS['username'], 
+	    $GLOBALS['password'], $GLOBALS['database']);
+
+	if ($conn->connect_error) {
+	    die("Connection failed: " . $conn->connect_error);
+	}
+
+	// $sql = "SELECT * FROM tbl_url u INNER JOIN (SELECT c.cat_id as cat_id FROM `tbl_word` w INNER JOIN `tbl_category` c ON w.cat_id = c.cat_id where w.word = '" + $word + "') wc ON wc.cat_id = u.cat_id_1;";
+	// $result = mysqli_query($conn, $sql);
+	//     $levels = array();
+	//     if (mysqli_num_rows($result) > 0) {
+	//         while($row = mysqli_fetch_assoc($result)) {
+	//             $levels[] = $row;
+	//         }
+	//     }	 
+	       
+	// 	mysqli_close($conn);
+	// 	return $levels;
+
+
+	if ($stmt = $conn->prepare("SELECT u.url, u.name, wc.cat_name FROM tbl_url u INNER JOIN (SELECT c.cat_id, c.cat_name FROM `tbl_word` w INNER JOIN `tbl_category` c ON w.cat_id = c.cat_id where w.word = ?) wc ON wc.cat_id = u.cat_id_1;")) 
+	{
+
+	    /* bind parameters for markers */
+	    $stmt->bind_param("i", $word);
+
+	    /* execute query */
+	    $stmt->execute();
+
+	    /* bind result variables */
+	    $stmt->bind_result($appurls, $appnames, $appcat);
+
+	    $apps = array();
+	    while ($stmt->fetch()) {
+	    	$app["name"] = $appnames;
+	    	$app["url"] = $appurls;
+	    	$app["cat"] = $appcat;
+	    	$apps[] = $app;
+	    }
+
+		$stmt->fetch();
+
+		$stmt->close();
+	}
+
+	mysqli_close($conn);
+	return $apps;
 }
 
 // **************************Functions***************************************

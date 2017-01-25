@@ -1,27 +1,59 @@
 <link rel="stylesheet" type="text/css" href="./app/todoList/todoList.css">
 <div class="todoList">
-  <div class="list-group-item">
+  <div class="list-group-item" >
   <input class="toggle" type="checkbox" ng-model="todo.completed" ng-change="toggleCompleted(todo)">
-  <input id="new-todo" value="{{todo.newTitle}}" ng-disabled="saving">
+  <textarea rows="1" id="new-todo" ng-disabled="saving" ng-change="changeFunction()" ng-model=todo.title></textarea>
+  
+  <button class="destroy" data-toggle="modal" data-target="#deleteModal" ng-hide="needsSave"></button>
+  <span class="glyphicon glyphicon-floppy-saved" aria-hidden="true" ng-show="needsSave"></span>
   </div>
 
-  <div style="margin-top:10px">
-    <a class="col-xs-6 col-md-4" style="padding: 0;" href="https://m.yelp.com/seattle">
+  <div style="margin-top:10px" ng-repeat="app in apps track by $index">
+    <a class="col-xs-6 col-md-4" style="padding: 0;" href={{app.url}}>
       <div class="thumbnail">
         <div class="caption">
-          <h3>Yelp</h3>
-          <p>food</p>
+          <h3>{{app.name}}</h3>
+          <p>{{app.cat}}</p>
         </div>
       </div>
     </a>
-    <div class="col-xs-6 col-md-4" style="padding: 0;">
-      <div class="thumbnail">
-        <div class="caption">
-          <h3>Videos</h3>
-          <p>...</p>
-        </div>
+  </div>
+</div>
+
+<!-- Modal -->
+<div class="modal fade" id="deleteModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title" id="myModalLabel">Delete "{{todo.title}}"?</h4>
+      </div>
+      <div class="modal-body">
+        Deleted todo list will no longer shows in your list
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+        <button type="button" class="btn btn-danger" ng-click="removeTodo(todo)">Delete</button>
       </div>
     </div>
   </div>
+</div>
 
+<!-- Modal -->
+<div class="modal fade" id="saveModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title" id="myModalLabel">Delete "{{todo.title}}"?</h4>
+      </div>
+      <div class="modal-body">
+        Deleted todo list will no longer shows in your list
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+        <button type="button" class="btn btn-danger" ng-click="saveEdits(todo, 'submit')">Save</button>
+      </div>
+    </div>
+  </div>
 </div>

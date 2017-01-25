@@ -10,6 +10,8 @@ angular.module('MinionCraft')
 		'use strict';
 
 		var todos = $scope.todos = [];// store.todos;
+
+		var maxId = 0;
 		//var todoKeys = store.todoKeys;
 		for(var key in store.todoKeys)
 		{
@@ -23,7 +25,9 @@ angular.module('MinionCraft')
 		$scope.editedTodo = null;
 		$scope.status = '';
 
-		console.log(todos);
+		console.log(new Date().toLocaleString());
+
+		console.log("scope.todo: " + $scope.todos);
 		$scope.$watch('todos', function () {
 			$scope.remainingCount = $filter('filter')(todos, { completed: false }).length;
 			$scope.completedCount = todos.length - $scope.remainingCount;
@@ -32,13 +36,6 @@ angular.module('MinionCraft')
 		}, true);
 
 		// Monitor the current route for changes and adjust the filter accordingly.
-		// $scope.$on('$routeChangeSuccess', function () {
-		// 	var status = $scope.status = $routeParams.status || '';
-		// 	$scope.statusFilter = (status === 'active') ?
-		// 		{ completed: false } : (status === 'completed') ?
-		// 		{ completed: true } : {};
-		// });
-
 		$scope.showFilter = function(data)
 		{
 			var status = $scope.status = data || '';
@@ -50,7 +47,8 @@ angular.module('MinionCraft')
 		$scope.addTodo = function () {
 			var newTodo = {
 				title: $scope.newTodo.trim(),
-				completed: false
+				completed: false,
+				date: new Date().toLocaleString()
 			};
 
 			if (!newTodo.title) {
@@ -66,6 +64,8 @@ angular.module('MinionCraft')
 				.finally(function () {
 					$scope.saving = false;
 				});
+			newTodo.key = newKey;
+			$scope.todos.push(newTodo);
 		};
 
 		// $scope.editTodo = function (todo) {
@@ -115,6 +115,7 @@ angular.module('MinionCraft')
 
 		$scope.removeTodo = function (todo) {
 			store.delete(todo);
+			$scope.todos.splice($scope.todos.indexOf(todo), 1);
 		};
 
 		$scope.saveTodo = function (todo) {
@@ -132,7 +133,11 @@ angular.module('MinionCraft')
 		};
 
 		$scope.clearCompletedTodos = function () {
-			store.clearCompleted();
+			$scope.todos.forEach(function (todo) {
+				if (todo.completed) {
+					$scope.removeTodo(todo);
+				}
+			});
 		};
 
 		$scope.markAll = function (completed) {
@@ -159,3 +164,16 @@ angular.module('MinionCraft')
 		    s4() + '-' + s4() + s4() + s4();
 		}
 	});
+
+
+var observe;
+if (window.attachEvent) {
+    observe = function (element, event, handler) {
+        element.attachEvent('on'+event, handler);
+    };
+}
+else {
+    observe = function (element, event, handler) {
+        element.addEventListener(event, handler, false);
+    };
+}
