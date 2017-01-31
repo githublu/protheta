@@ -11,23 +11,23 @@ angular.module('MinionCraft')
 
 		var params = $location.search();
         $scope.id = params.id;
+		
 
         store.get($scope.id);
-        var todo = {};
-        todo = store.todo;
-        todo.key = $scope.id;
-		var title = todo.title;
+        $scope.todo = {};
+        $scope.todo = store.todo;
+        $scope.todo.key = $scope.id;
+		var title = $scope.todo.title;
 
-        var tag = todo.title.split("#");
+        var tag = $scope.todo.title.split("#");
         var newTitle = tag[0];
-        if (todo.title.charAt(0) != '#') 
+        if ($scope.todo.title.charAt(0) != '#') 
         {
         	tag.splice(0, 1);
         }
         
-        todo.newTitle = newTitle;
-        todo.tag = tag;
-        $scope.todo = todo;
+        $scope.todo.newTitle = newTitle;
+        $scope.todo.tag = tag;
         $scope.needsSave = false;
         $scope.apps = {};
 
@@ -36,15 +36,21 @@ angular.module('MinionCraft')
             method : "POST",
             url : "./functions/getWebApp.php",
             data : { 'action': 'GetWebApp',
-        			 'tag': JSON.stringify(todo.tag)}
+        			 'tag': JSON.stringify($scope.todo.tag)}
           })
         .then(function mySucces(response) {
         	console.log(response.data);
-        	$scope.apps = response.data;
+        	parseApps(response.data);
           }, 
           function myError(response) {
             console.log(response);
         }); 
+
+        // Add user preferences
+        $scope.upsertPreference = function (app)
+        {
+        	upsert(app);
+        }
 
 		$scope.status = '';
 		$scope.changeFunction=function()
@@ -80,37 +86,23 @@ angular.module('MinionCraft')
 			$scope.originalTodo = angular.extend({}, todo);
 		};
 
-		$scope.saveEdits = function (todo, event) {
-			// Blur events are automatically triggered after the form submit event.
-			// This does some unfortunate logic handling to prevent saving twice.
-			if (event === 'blur' && $scope.saveEvent === 'submit') {
-				$scope.saveEvent = null;
+		$scope.saveEdits = function () {
+			$scope.todo.title = $scope.todo.title.trim();
+
+			if ($scope.todo.title === title) {
 				return;
 			}
 
-			$scope.saveEvent = event;
+			title = $scope.todo.title;
 
-			if ($scope.reverted) {
-				// Todo edits were reverted-- don't save.
-				$scope.reverted = null;
-				return;
-			}
+			store.put($scope.todo, $scope.todo.key)
+				.then(function success(){}, function error(){
+						$scope.todo.title = title
+					});
 
-			todo.title = todo.title.trim();
-
-			if (todo.title === $scope.originalTodo.title) {
-				$scope.editedTodo = null;
-				return;
-			}
-
-			store[todo.title ? 'put' : 'delete'](todo)
-				.then(function success() {}, function error() {
-					todo.title = $scope.originalTodo.title;
-				})
-				.finally(function () {
-					$scope.editedTodo = null;
-				});
+			$scope.changeFunction();
 		};
+
 		$('textarea').val($scope.todo.title);
 		$('textarea').each(function () {
 			  this.setAttribute('style', 'height:' + (this.scrollHeight+ 50) + 'px;overflow-y:hidden;');
@@ -119,13 +111,23 @@ angular.module('MinionCraft')
 			  this.style.height = (this.scrollHeight) + 'px';
 			});
 
-			     //    var textarea = null;
-        // window.addEventListener("load", function() {
-        //     textarea = window.document.querySelector("textarea");
-        //     textarea.addEventListener("keypress", function() {
-        //         if(textarea.scrollTop != 0){
-        //             textarea.style.height = textarea.scrollHeight + "px";
-        //         }
-        //     }, false);
-        // }, false);
+		async function parseApps(systemApps)
+		{
+			var userApps = await readAll();
+			// Display userApps if they also exist in systemApps and sort by frequency
+			// Many userApps, and few system apps
+			var userSystemApps = [];
+			for (var i = 0; i < systemApps.length; i++) {
+				for (var j = 0; j < userApps.length; j++) {
+					if (systemApps[i].name == userApps[j].name) {
+						userSystemApps.push(userApps[j]);
+						systemApps.splice(systemApps.indexOf(systemApps[i]), 1);
+					}
+				}
+			}
+
+        	$scope.apps = systemApps;
+			$scope.userSystemApps = userSystemApps;
+			$scope.$apply();
+		}
 	});

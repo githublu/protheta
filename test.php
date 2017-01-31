@@ -1,11 +1,16 @@
+<script src="app/testjs.js"></script>
+<button onclick="add()">Add data </button>
+<button onclick="readAll()">Read all </button>
+<button onclick="dropdb()">Drop db</button>
 <?php
-require_once('./functions/dbConnection.php');
-	$conn = new mysqli( $GLOBALS['servername'], $GLOBALS['username'], 
-	    $GLOBALS['password'], $GLOBALS['database']);
+// require_once('./functions/dbConnection.php');
+// 	$conn = new mysqli( $GLOBALS['servername'], $GLOBALS['username'], 
+// 	    $GLOBALS['password'], $GLOBALS['database']);
 
-	if ($conn->connect_error) {
-	    die("Connection failed: " . $conn->connect_error);
-	}
+// 	if ($conn->connect_error) {
+// 	    die("Connection failed: " . $conn->connect_error);
+// 	}
+echo 111;
 
 	// $question_id = 1;
 	// $stage = 1;
@@ -25,32 +30,32 @@ require_once('./functions/dbConnection.php');
 	//     $stmt->execute();
 	//     $stmt->close();
 	// }
-			$userId = 7;
-			// get stage level by question id
-			if ($stmt = $conn->prepare("SELECT max(question_id) FROM tbl_progress where user_id = ?")) {
+			// $userId = 7;
+			// // get stage level by question id
+			// if ($stmt = $conn->prepare("SELECT max(question_id) FROM tbl_progress where user_id = ?")) {
 
-			    /* bind parameters for markers */
-			    $stmt->bind_param("i", $userId);
+			//     /* bind parameters for markers */
+			//     $stmt->bind_param("i", $userId);
 
-			    /* execute query */
-			    $stmt->execute();
+			//     /* execute query */
+			//     $stmt->execute();
 
-			    /* bind result variables */
-			    $stmt->bind_result($question);
+			//     /* bind result variables */
+			//     $stmt->bind_result($question);
 
-			    /* fetch value */
-			    $stmt->fetch();
+			//     /* fetch value */
+			//     $stmt->fetch();
 
-				$stmt->close();
-			}
+			// 	$stmt->close();
+			// }
 
-			if (is_null($question)) {
-				# code...
-				echo "is null";
-			}
-			else
-			{
-				echo $question;
-			}
+			// if (is_null($question)) {
+			// 	# code...
+			// 	echo "is null";
+			// }
+			// else
+			// {
+			// 	echo $question;
+			// }
 
  ?>

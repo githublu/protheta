@@ -36,6 +36,8 @@
     <script src="app/todo/todoCtrl.js"></script>
     <script src="app/todo/todoStorage.js"></script>
     <script src="app/todoList/todoListCtrl.js"></script>
+    <!-- Services -->
+    <script src="app/services/indexeddb.js"></script>
 </body>
 
 </html>

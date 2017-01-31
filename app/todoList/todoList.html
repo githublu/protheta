@@ -5,11 +5,25 @@
   <textarea rows="1" id="new-todo" ng-disabled="saving" ng-change="changeFunction()" ng-model=todo.title></textarea>
   
   <button class="destroy" data-toggle="modal" data-target="#deleteModal" ng-hide="needsSave"></button>
-  <span class="glyphicon glyphicon-floppy-saved" aria-hidden="true" ng-show="needsSave"></span>
+  <span class="glyphicon glyphicon-floppy-saved" aria-hidden="true" ng-show="needsSave" ng-click="saveEdits()"></span>
   </div>
 
+  <!-- usersystemapps -->
+  <h3>recommended apps</h3>
+  <div style="margin-top:10px" ng-repeat="app in userSystemApps track by $index">
+    <a class="col-xs-6 col-md-4" style="padding: 0;" href={{app.url}} ng-click="upsertPreference(app)">
+      <div class="thumbnail">
+        <div class="caption">
+          <h3>{{app.name}}</h3>
+          <p>{{app.cat}}</p>
+        </div>
+      </div>
+    </a>
+  </div>
+<h3>other apps</h3>
+  <!-- other system apps -->
   <div style="margin-top:10px" ng-repeat="app in apps track by $index">
-    <a class="col-xs-6 col-md-4" style="padding: 0;" href={{app.url}}>
+    <a class="col-xs-6 col-md-4" style="padding: 0;" href={{app.url}} ng-click="upsertPreference(app)">
       <div class="thumbnail">
         <div class="caption">
           <h3>{{app.name}}</h3>

@@ -63,7 +63,7 @@
         store: function (todoStorage) {
           // Get the correct module (API or localStorage).
           return todoStorage.then(function (module) {
-            module.getAll(); // Fetch the todo records in the background.
+            //module.getAll(); // Fetch the todo records in the background.
             return module;
           });
         }

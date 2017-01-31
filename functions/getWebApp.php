@@ -17,7 +17,6 @@ if(isset($_COOKIE["UserId"]))
 	$userId = $_COOKIE["UserId"];
 }
 
-
 if ($method == 'POST' && $action == 'GetWebApp')
 {
 	$apps = array();
@@ -56,7 +55,7 @@ function GetWebApp($word)
 	{
 
 	    /* bind parameters for markers */
-	    $stmt->bind_param("i", $word);
+	    $stmt->bind_param("s", $word);
 
 	    /* execute query */
 	    $stmt->execute();
@@ -66,6 +65,7 @@ function GetWebApp($word)
 
 	    $apps = array();
 	    while ($stmt->fetch()) {
+	    	$app = [];
 	    	$app["name"] = $appnames;
 	    	$app["url"] = $appurls;
 	    	$app["cat"] = $appcat;
@@ -75,6 +75,10 @@ function GetWebApp($word)
 		$stmt->fetch();
 
 		$stmt->close();
+	}
+	else
+	{
+		return -1;
 	}
 
 	mysqli_close($conn);

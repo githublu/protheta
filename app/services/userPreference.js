@@ -8,7 +8,7 @@
  * model.
  */
 angular.module('MinionCraft')
-	.factory('todoStorage', function ($http, $injector) {
+	.factory('userPreference', function ($http, $injector) {
 		'use strict';
 
 		// Detect if an API backend is present. If so, return the API module, else
@@ -17,7 +17,7 @@ angular.module('MinionCraft')
 			.then(function () {
 				return $injector.get('api');
 			}, function () {
-				return $injector.get('localStorage');
+				return $injector.get('userPreference');
 			});
 	})
 
@@ -107,40 +107,52 @@ angular.module('MinionCraft')
 		return store;
 	})
 
-	.factory('localStorage', function ($q) {
+	.factory('userPreference', function ($q) {
 		'use strict';
 
-		var STORAGE_ID = 'todos-angularjs';
+		var indexedDB = {
 
-		var store = {
-			todo: {},
-			todos: [],
-			todoKeys: [],
-
-			_getFromLocalStorage: function (key) {
+			_getFromDb: function (key) {
 				return JSON.parse(localStorage.getItem(key) || '[]');
 			},
 
-			_deleteFromLocalStorage: function (key) {
+			_deleteFromDb: function (key) {
 				return JSON.parse(localStorage.removeItem(key) || '[]');
 			},
 
-			_saveToLocalStorage: function (key, todos) {
+			_saveToDb: function (key, todos) {
 				localStorage.setItem(key, JSON.stringify(todos));
+			},
+
+			__init: function ()
+			{
+         		var request = window.indexedDB.open("indexeddb", 1);
+         		//db = checkDbRequest(request);
+
+         		request.onerror = function(event) {
+		           console.log("error: ");
+		        };
+		        
+		        request.onsuccess = function(event) {
+		           db = request.result;
+		           console.log("success: "+ db);
+		        };
+		        
+		        request.onupgradeneeded = function(event) {
+		           var db = event.target.result;
+		           var objectStore = db.createObjectStore("preference", {keyPath: "key"});
+		        }
+
+         		// if (db == -2) 
+         		// {
+         		// 	return -2;
+         		// }
+
+         		return 0;
 			},
 
 			clearCompleted: function () {
 				var deferred = $q.defer();
-
-				var completeTodos = [];
-				var incompleteTodos = [];
-				store.todos.forEach(function (todo) {
-					if (todo.completed) {
-						store.delete(todo);
-					}
-				});
-				
-				deferred.resolve(store.todos);
 
 				return deferred.promise;
 			},
@@ -148,59 +160,59 @@ angular.module('MinionCraft')
 			delete: function (todo) {
 				var deferred = $q.defer();
 
-				store.todos.splice(store.todos.indexOf(todo), 1);
-
-				store._deleteFromLocalStorage(todo.key);
-				deferred.resolve(store.todos);
-
 				return deferred.promise;
 			},
 
 			get: function (key) {
-				var deferred = $q.defer();
-
-				angular.copy(store._getFromLocalStorage(key), store.todo);
-				deferred.resolve(store.todo);
-
-				return deferred.promise;
+				var transaction = db.transaction(["indexeddb"]);
+				var objectStore = transaction.objectStore("preference");
+				var request = objectStore.get(key);
+				return checkDbRequest(request);
 			},
 
 			getAll: function () {
 				var deferred = $q.defer();
-				store.todoKeys = [];
-				store.todos = [];
-				for(var i=0, len=localStorage.length; i<len; i++) {
-					var key = localStorage.key(i);
-				    store.todoKeys[key] = localStorage[key];
-    				store.todos.push(localStorage[key]);
-				}
-				deferred.resolve(store.todos);
 
 				return deferred.promise;
 			},
 
-			insert: function (key, todo) {
-				var deferred = $q.defer();
-
-				store.todos[key] = todo;
-
-				store._saveToLocalStorage(key, todo);
-				deferred.resolve(store.todos);
-
-				return deferred.promise;
+			insert: function (app) {
+				if (indexedDB.__init() == 0)
+				{
+					var request = db.transaction(["indexeddb"], "readwrite")
+					.objectStore("preference")
+					.add(app);
+					            request.onsuccess = function(event) {
+               alert("Kenny has been added to your database.");
+            };
+            
+            request.onerror = function(event) {
+               alert("Unable to add data\r\nKenny is aready exist in your database! ");
+            }
+					//return checkDbRequest(request);
+				}
+				else
+				{
+					return -1;
+				}
 			},
 
 			put: function (todo, index) {
 				var deferred = $q.defer();
 
-				store.todos[index] = todo;
-
-				store._saveToLocalStorage(index, todo);
-				deferred.resolve(store.todos);
-
 				return deferred.promise;
 			}
 		};
 
-		return store;
+		return indexedDB;
 	});
+
+function checkDbRequest(request)
+{
+	request.onerror = function(event) {
+		return -2;
+	};
+	request.onsuccess = function(event) {
+		return request.result;
+	};
+}
