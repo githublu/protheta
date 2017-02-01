@@ -17,7 +17,9 @@
 <body ng-app="MinionCraft" class="gameBody">
     <div ng-view></div>
 	     <!-- <div ng-include="'app/game.php'"></div> -->
-
+    
+    <!-- Services -->
+    <script src="app/services/indexeddb.js"></script>
     <!-- Library Scripts -->
     <script src="js/jquery-1.11.3.min.js"></script>
     <script src="js/angular.js"></script>
@@ -37,8 +39,8 @@
     <script src="app/todo/todoCtrl.js"></script>
     <script src="app/todo/todoStorage.js"></script>
     <script src="app/todoList/todoListCtrl.js"></script>
-    <!-- Services -->
-    <script src="app/services/indexeddb.js"></script>
+    <script src="app/me/meCtrl.js"></script>
+
 </body>
 
 </html>

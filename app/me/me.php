@@ -1,23 +1,43 @@
 
 <link rel="stylesheet" type="text/css" href="./app/me/me.css">
-<div class="me">
-<div class="list-group">
-  <div class="list-group-item row">
-    <span class="glyphicon glyphicon glyphicon-search" style="margin-left: 10px" aria-hidden="true"></span>
-    <span class="topbar">
-      <span class="glyphicon glyphicon-align-justify" aria-hidden="true"></span>
-      <p style="display:inline-block; margin: 0px;">Sort by most recent</p>
-    </span>
+<div ng-controller="MeCtrl" class="me">
+  <div class="list-group">
+    <div class="list-group-item row" style="margin-right: 0px;">
+      <span class="glyphicon glyphicon glyphicon-search" style="margin-left: 10px" aria-hidden="true"></span>
+
+      <span class="topbar nav nav-pills">
+        <!-- <p style="display:inline-block; margin: 0px;">Sort by most recent</p> -->
+        <li role="presentation" class="dropdown"> 
+          <a class="dropdown-toggle" id="drop6" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false" style="padding: 0px"> Order By {{userOrder}} 
+          <span class="caret"></span> 
+          </a> 
+          <ul class="dropdown-menu  dropdown-menu-right" aria-labelledby="drop3"> 
+            <li>
+              <a ng-click="OrderApps('-lastUpdateTime')" ng-show="orderKey != '-lastUpdateTime'">Most Recent</a>
+            </li> 
+            <li>
+              <a ng-click="OrderApps('name')" ng-show="orderKey != 'name'">Name</a>
+            </li> 
+            <li>
+              <a ng-click="OrderApps('category')" ng-show="orderKey != 'category'">Category</a>
+              </li> 
+          </ul> 
+        </li>
+      </span>
+    </div>
+  </div>
+  <div ng-repeat="app in apps | orderBy : orderKey">
+  <div class="list-group-item">
+    <a href={{app.url}} style="width:65%; display: inline-block;">
+      <span class="list-group-item-heading">{{app.name}}</span>
+    </a>
+    <div style="width:33%; display: inline-block;">
+      <span class="glyphicon glyphicon-trash" style="float: right;" aria-hidden="true" ng-click="RemoveUserApp(app.name)"></span>
+    <span class="list-group-item-text">{{app.cat}}</span>
+    </div>
+
+    
+  </div>
   </div>
 </div>
-<a href="http://www.cnn.com/" class="list-group-item">
-  <span class="list-group-item-heading">CNN</span>
-  <span class="glyphicon glyphicon-trash" style="float: right;" aria-hidden="true"></span>
-  <span class="list-group-item-text">News</span>
-</a>
-<a href="#" class="list-group-item">
-  <span class="list-group-item-heading">Protheta</span>
-  <span class="glyphicon glyphicon-trash" style="float: right;" aria-hidden="true"></span>
-  <span class="list-group-item-text">Game</span>
-</a>
-</div>
+

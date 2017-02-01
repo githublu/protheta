@@ -10,6 +10,7 @@ if (!window.indexedDB) {
 }
 
 var request = window.indexedDB.open("indexedDB", 1);
+var db;
 
 request.onerror = function(event) {
    console.log("error: ");
@@ -85,16 +86,19 @@ function add(app) {
    }
 }
 
-function remove() {
-   var request = db.transaction(["preference"], "readwrite")
-   .objectStore("preference")
-   .delete("00-03");
-   
-   request.onsuccess = function(event) {
-      console.log(event);
-      //alert(event);
-      //alert("Kenny's entry has been removed from your database.");
-   };
+function remove(name) {
+   return new Promise(resolve => {
+      var request = db.transaction(["preference"], "readwrite")
+      .objectStore("preference")
+      .delete(name);
+      
+      request.onsuccess = function(event) {
+         console.log(event);
+         resolve(true);
+         //alert(event);
+         //alert("Kenny's entry has been removed from your database.");
+      };
+   });
 }
 
 function dropDB()
@@ -121,6 +125,7 @@ function upsert(app)
    request.onsuccess = function(event) {
       // Get the old value that we want to update
       var data = event.target.result;
+      app.lastUpdateTime = new Date().toLocaleString();
       if (data) {
          app.frequency = data.frequency + 1;
       }

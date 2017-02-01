@@ -35,7 +35,8 @@
         templateUrl  : 'app/category/category.php'
     })
     .when("/me", {
-        templateUrl  : 'app/me/me.php'
+        templateUrl  : 'app/me/me.php',
+        controller: 'MeCtrl'
     })
     .when("/trending", {
         templateUrl  : 'app/trending/trending.php'

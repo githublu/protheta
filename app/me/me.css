@@ -28,3 +28,9 @@
     float: right;
     margin-right: 40px;
 }
+
+.me a
+{
+    color: inherit;
+    cursor: pointer;
+}
