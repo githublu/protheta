@@ -19,32 +19,13 @@ angular.module('MinionCraft')
         $scope.todo.key = $scope.id;
 		var title = $scope.todo.title;
 
-        var tag = $scope.todo.title.split("#");
-        var newTitle = tag[0];
-        if ($scope.todo.title.charAt(0) != '#') 
-        {
-        	tag.splice(0, 1);
-        }
-        
-        $scope.todo.newTitle = newTitle;
-        $scope.todo.tag = tag;
         $scope.needsSave = false;
         $scope.apps = {};
-
-        // get player name
-      	$http({
-            method : "POST",
-            url : "./functions/getWebApp.php",
-            data : { 'action': 'GetWebApp',
-        			 'tag': JSON.stringify($scope.todo.tag)}
-          })
-        .then(function mySucces(response) {
-        	console.log(response.data);
-        	parseApps(response.data);
-          }, 
-          function myError(response) {
-            console.log(response);
-        }); 
+        $scope.hasUserSystemApp = false;
+        $scope.hasSystemApp = false;
+        
+        // get web apps for this todo
+        GetWebApps();
 
         // Add user preferences
         $scope.upsertPreference = function (app)
@@ -94,6 +75,7 @@ angular.module('MinionCraft')
 			}
 
 			title = $scope.todo.title;
+			GetWebApps();
 
 			store.put($scope.todo, $scope.todo.key)
 				.then(function success(){}, function error(){
@@ -111,6 +93,38 @@ angular.module('MinionCraft')
 			  this.style.height = (this.scrollHeight) + 'px';
 			});
 
+		function GetWebApps()
+		{
+			ParseTag();
+			// get web apps
+	      	$http({
+	            method : "POST",
+	            url : "./functions/getWebApp.php",
+	            data : { 'action': 'GetWebApp',
+	        			 'tag': JSON.stringify($scope.todo.tag)}
+	          })
+	        .then(function mySucces(response) {
+	        	console.log(response.data);
+	        	parseApps(response.data);
+	          }, 
+	          function myError(response) {
+	            console.log(response);
+	        }); 
+		}
+
+		function ParseTag()
+		{
+			var tag = $scope.todo.title.split("#");
+	        var newTitle = tag[0];
+	        if ($scope.todo.title.charAt(0) != '#') 
+	        {
+	        	tag.splice(0, 1);
+	        }
+	        
+	        $scope.todo.newTitle = newTitle;
+	        $scope.todo.tag = tag;
+		}
+
 		async function parseApps(systemApps)
 		{
 			var userApps = await readAll();
@@ -124,6 +138,22 @@ angular.module('MinionCraft')
 						systemApps.splice(systemApps.indexOf(systemApps[i]), 1);
 					}
 				}
+			}
+
+			if (userSystemApps.length > 0) {
+				$scope.hasUserSystemApp = true;
+			}
+			else
+			{
+				$scope.hasUserSystemApp = false;
+			}
+
+			if (systemApps.length > 0) {
+				$scope.hasSystemApp = true;
+			}
+			else
+			{
+				$scope.hasSystemApp = false;
 			}
 
         	$scope.apps = systemApps;

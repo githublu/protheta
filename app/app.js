@@ -28,9 +28,9 @@
     .when("/chooseLevel", {
         templateUrl  : 'app/chooseLevel/chooselevel.php'
     })
-    .when("/feature", {
-        templateUrl  : 'app/feature/feature.php'
-    })
+    // .when("/feature", {
+    //     templateUrl  : 'app/feature/feature.php'
+    // })
     .when("/category", {
         templateUrl  : 'app/category/category.php'
     })

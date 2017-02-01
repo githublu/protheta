@@ -9,29 +9,39 @@
   </div>
 
   <!-- usersystemapps -->
-  <h3>recommended apps</h3>
-  <div style="margin-top:10px" ng-repeat="app in userSystemApps track by $index">
-    <a class="col-xs-6 col-md-4" style="padding: 0;" href={{app.url}} ng-click="upsertPreference(app)">
-      <div class="thumbnail">
-        <div class="caption">
-          <h3>{{app.name}}</h3>
-          <p>{{app.cat}}</p>
-        </div>
+  <div class="panel panel-success" ng-show="hasUserSystemApp">
+    <div class="panel-heading">{{hasUserSystemApp ? 'Recommanded Apps' : ''}}</div>
+    <div class="panel-body">
+      <div ng-repeat="app in userSystemApps track by $index">
+        <a class="col-xs-4 col-md-4" style="padding: 0;" href={{app.url}} ng-click="upsertPreference(app)">
+          <div class="thumbnail">
+            <div class="caption">
+              <h3>{{app.name}}</h3>
+              <p class="subp">{{app.cat}}</p>
+            </div>
+          </div>
+        </a>
       </div>
-    </a>
+    </div>
   </div>
-<h3>other apps</h3>
-  <!-- other system apps -->
-  <div style="margin-top:10px" ng-repeat="app in apps track by $index">
-    <a class="col-xs-6 col-md-4" style="padding: 0;" href={{app.url}} ng-click="upsertPreference(app)">
-      <div class="thumbnail">
-        <div class="caption">
-          <h3>{{app.name}}</h3>
-          <p>{{app.cat}}</p>
-        </div>
+
+  <div class="panel panel-default" ng-show="hasSystemApp">
+    <div class="panel-heading">{{hasUserSystemApp ? 'Other Apps' : 'Related Apps'}}</div>
+    <div class="panel-body">
+      <!-- other system apps -->
+      <div ng-repeat="app in apps track by $index">
+        <a class="col-xs-4 col-md-4" style="padding: 0;" href={{app.url}} ng-click="upsertPreference(app)">
+          <div class="thumbnail">
+            <div class="caption">
+              <h3>{{app.name}}</h3>
+              <p class="subp">{{app.cat}}</p>
+            </div>
+          </div>
+        </a>
       </div>
-    </a>
+    </div>
   </div>
+
 </div>
 
 <!-- Modal -->

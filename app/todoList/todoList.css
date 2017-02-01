@@ -79,9 +79,9 @@
     content: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" viewBox="-10 -18 100 135"><circle cx="50" cy="50" r="50" fill="none" stroke="#bddad5" stroke-width="6"/><path fill="#5dc2af" d="M72 25L42 71 27 56l-4 4 20 20 34-52z"/></svg>');
 }
 
-.thumbnail
+.todoList .col-xs-4
 {
-    height: 140px;
+    padding-top: 33.33333333%;
 }
 
 textarea
@@ -114,4 +114,32 @@ textarea
     right: 8px;
     top: 38px;
     font-size: 1.2em;
+}
+
+.todoList .panel
+{
+    margin-bottom: 0px;
+    border-top: 0px;
+}
+
+.todoList .thumbnail .caption
+{
+    padding-top: 0px;
+    padding-right: 0px;
+}
+
+.todoList .thumbnail
+{
+    margin-right: 4px;
+    margin-bottom: 4px;
+}
+
+.todoList p
+{
+    margin-bottom: 0px;
+}
+
+.todoList .subp
+{
+    color: #A0A19F;
 }

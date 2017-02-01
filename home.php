@@ -5,6 +5,7 @@
     <title>Game1</title>
 
     <!-- Style sheets -->
+<link rel="stylesheet" type="text/css" href="./css/index.css">
 <link rel="stylesheet" type="text/css" href="./app/game/gameStyle.css">
 <link rel="stylesheet" type="text/css" href="./css/bootstrap.min.css">
 <link rel="stylesheet" type="text/css" href="./app/start/startStyle.css">
