@@ -132,6 +132,7 @@ textarea
 {
     margin-right: 4px;
     margin-bottom: 4px;
+    height: 95px;
 }
 
 .todoList p
@@ -142,4 +143,6 @@ textarea
 .todoList .subp
 {
     color: #A0A19F;
+    bottom: 12px;
+    position: absolute;
 }

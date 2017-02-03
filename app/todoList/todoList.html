@@ -12,7 +12,7 @@
   <div class="panel panel-success" ng-show="hasUserSystemApp">
     <div class="panel-heading">{{hasUserSystemApp ? 'Recommanded Apps' : ''}}</div>
     <div class="panel-body">
-      <div ng-repeat="app in userSystemApps track by $index">
+      <div ng-repeat="app in userSystemApps | orderBy : '-frequency'">
         <a class="col-xs-4 col-md-4" style="padding: 0;" href={{app.url}} ng-click="upsertPreference(app)">
           <div class="thumbnail">
             <div class="caption">

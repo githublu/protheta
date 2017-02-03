@@ -130,15 +130,17 @@ angular.module('MinionCraft')
 			var userApps = await readAll();
 			// Display userApps if they also exist in systemApps and sort by frequency
 			// Many userApps, and few system apps
+			var remainingApps = systemApps.slice();
 			var userSystemApps = [];
-			for (var i = 0; i < systemApps.length; i++) {
-				for (var j = 0; j < userApps.length; j++) {
+			for (var i = systemApps.length -1 ; i >= 0; i--) {
+				for (var j = userApps.length -1; j >= 0; j--) {
 					if (systemApps[i].name == userApps[j].name) {
 						userSystemApps.push(userApps[j]);
-						systemApps.splice(systemApps.indexOf(systemApps[i]), 1);
+						remainingApps.splice(systemApps.indexOf(systemApps[i]), 1);
 					}
 				}
 			}
+			//systemApps.remove.apply(systemApps,userApps);
 
 			if (userSystemApps.length > 0) {
 				$scope.hasUserSystemApp = true;
@@ -148,7 +150,7 @@ angular.module('MinionCraft')
 				$scope.hasUserSystemApp = false;
 			}
 
-			if (systemApps.length > 0) {
+			if (remainingApps.length > 0) {
 				$scope.hasSystemApp = true;
 			}
 			else
@@ -156,7 +158,7 @@ angular.module('MinionCraft')
 				$scope.hasSystemApp = false;
 			}
 
-        	$scope.apps = systemApps;
+        	$scope.apps = remainingApps;
 			$scope.userSystemApps = userSystemApps;
 			$scope.$apply();
 		}

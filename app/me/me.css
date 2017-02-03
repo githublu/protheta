@@ -34,3 +34,25 @@
     color: inherit;
     cursor: pointer;
 }
+
+.me .form-group
+{
+    float: left;
+    display: inline-block;
+    width: 46%;
+    margin-bottom: 0px;
+    margin-left: 4px;
+}
+
+.me .dropdown
+{
+    float: right;
+    display: inline-block;
+    width: 52%;
+    margin-top: 4px;
+}
+
+.me .form-control
+{
+    height: 28px;
+}
