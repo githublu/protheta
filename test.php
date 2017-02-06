@@ -1,61 +1,54 @@
-<script src="app/testjs.js"></script>
-<button onclick="add()">Add data </button>
-<button onclick="readAll()">Read all </button>
-<button onclick="dropdb()">Drop db</button>
-<?php
-// require_once('./functions/dbConnection.php');
-// 	$conn = new mysqli( $GLOBALS['servername'], $GLOBALS['username'], 
-// 	    $GLOBALS['password'], $GLOBALS['database']);
+<!doctype html>
+<html ng-app="ui.bootstrap.demo">
+  <head>
+    <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.6.1/angular.js"></script>
+    <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.6.1/angular-animate.js"></script>
+    <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.6.1/angular-sanitize.js"></script>
+    <script src="//angular-ui.github.io/bootstrap/ui-bootstrap-tpls-2.5.0.js"></script>
+    <script src="testCtrl.js"></script>
+    <link href="//netdna.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet">
+  </head>
+  <body>
 
-// 	if ($conn->connect_error) {
-// 	    die("Connection failed: " . $conn->connect_error);
-// 	}
-echo 111;
+<style>
+  .horizontal-collapse {
+    height: 70px;
+  }
+  .navbar-collapse.in {
+    overflow-y: hidden;
+  }
+</style>
+<div ng-controller="CollapseDemoCtrl">
+	<p>Resize window to less than 768 pixels to display mobile menu toggle button.</p>
+	<nav class="navbar navbar-default" role="navigation">
+		<div class="navbar-header">
+			<button type="button" class="navbar-toggle" ng-click="isNavCollapsed = !isNavCollapsed">
+				<span class="sr-only">Toggle navigation</span>
+				<span class="icon-bar"></span>
+				<span class="icon-bar"></span>
+				<span class="icon-bar"></span>
+			</button>
+			<a class="navbar-brand" href="#">A menu</a>
+		</div>
+		<div class="collapse navbar-collapse" uib-collapse="isNavCollapsed">
+			<ul class="nav navbar-nav">
+				<li><a href="#">Link 1</a></li>
+				<li><a href="#">Link 2</a></li>
+			</ul>
+		</div>
+	</nav>
+	<hr>
+	<button type="button" class="btn btn-default" ng-click="isCollapsed = !isCollapsed">Toggle collapse Vertically</button>
+	<hr>
+	<div uib-collapse="isCollapsed">
+		<div class="well well-lg">Some content</div>
+	</div>
 
-	// $question_id = 1;
-	// $stage = 1;
-	// $level = 1;
-	// $icon = array("1", "2", "3", "4", "5");
-	// $icon_set = json_encode($icon);
-	//$color = array("elephant", "chick", "crab","octopus", "giraffe");
-	// $color_set = json_encode($color);
-	// $prefix = "animal";
-	// $clear_count = 8;
-
-	// if ($stmt = $conn->prepare("INSERT INTO tbl_questions (question_id, stage, level, icon_set, color_set, prefix, clear_count) VALUES(?, ?, ?, ?, ?, ?, ?)")) {
-	//     /* bind parameters for markers */
-	//     $stmt->bind_param("iiisssi", $question_id, $stage, $level, $icon_set, $color_set, $prefix, $clear_count);
-
-	//     /* execute query */
-	//     $stmt->execute();
-	//     $stmt->close();
-	// }
-			// $userId = 7;
-			// // get stage level by question id
-			// if ($stmt = $conn->prepare("SELECT max(question_id) FROM tbl_progress where user_id = ?")) {
-
-			//     /* bind parameters for markers */
-			//     $stmt->bind_param("i", $userId);
-
-			//     /* execute query */
-			//     $stmt->execute();
-
-			//     /* bind result variables */
-			//     $stmt->bind_result($question);
-
-			//     /* fetch value */
-			//     $stmt->fetch();
-
-			// 	$stmt->close();
-			// }
-
-			// if (is_null($question)) {
-			// 	# code...
-			// 	echo "is null";
-			// }
-			// else
-			// {
-			// 	echo $question;
-			// }
-
- ?>
+	<button type="button" class="btn btn-default" ng-click="isCollapsedHorizontal = !isCollapsedHorizontal">Toggle collapse Horizontally</button>
+	<hr>
+	<div class="horizontal-collapse" uib-collapse="isCollapsedHorizontal" horizontal>
+		<div class="well well-lg">Some content</div>
+	</div>
+</div>
+  </body>
+</html>

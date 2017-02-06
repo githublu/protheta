@@ -17,7 +17,11 @@ if(isset($_COOKIE["UserId"]))
 	$userId = $_COOKIE["UserId"];
 }
 
-if ($method == 'POST' && $action == 'GetWebApp')
+if ($method != 'POST') {
+	die("can only accept POST action");
+}
+
+if ($action == 'GetWebApp')
 {
 	$apps = array();
 	$tag = json_decode($request->tag);
@@ -28,6 +32,10 @@ if ($method == 'POST' && $action == 'GetWebApp')
 	$apps = array_unique($apps, SORT_REGULAR);
 	echo json_encode($apps);
 }
+elseif ($action == 'GetWebAppForCategory')
+{
+	echo json_encode(GetWebAppForCategory());
+}
 
 function GetWebApp($word)
 {
@@ -37,19 +45,6 @@ function GetWebApp($word)
 	if ($conn->connect_error) {
 	    die("Connection failed: " . $conn->connect_error);
 	}
-
-	// $sql = "SELECT * FROM tbl_url u INNER JOIN (SELECT c.cat_id as cat_id FROM `tbl_word` w INNER JOIN `tbl_category` c ON w.cat_id = c.cat_id where w.word = '" + $word + "') wc ON wc.cat_id = u.cat_id_1;";
-	// $result = mysqli_query($conn, $sql);
-	//     $levels = array();
-	//     if (mysqli_num_rows($result) > 0) {
-	//         while($row = mysqli_fetch_assoc($result)) {
-	//             $levels[] = $row;
-	//         }
-	//     }	 
-	       
-	// 	mysqli_close($conn);
-	// 	return $levels;
-
 
 	if ($stmt = $conn->prepare("SELECT u.url, u.name, wc.cat_name FROM tbl_url u INNER JOIN (SELECT c.cat_id, c.cat_name FROM `tbl_word` w INNER JOIN `tbl_category` c ON w.cat_id = c.cat_id where w.word = ?) wc ON wc.cat_id = u.cat_id_1;")) 
 	{
@@ -83,6 +78,45 @@ function GetWebApp($word)
 
 	mysqli_close($conn);
 	return $apps;
+}
+
+function GetWebAppForCategory()
+{
+	$conn = new mysqli( $GLOBALS['servername'], $GLOBALS['username'], 
+    $GLOBALS['password'], $GLOBALS['database']);
+
+	if ($conn->connect_error) {
+	    die("Connection failed: " . $conn->connect_error);
+	}
+
+	if ($stmt = $conn->prepare("SELECT tc.cat_name, tu.name, tu.url FROM tbl_category tc RIGHT JOIN (select t1.url, t1.name, t1.cat_id_1 from tbl_url t1 LEFT JOIN tbl_url t2 ON t1.cat_id_1 = t2.cat_id_1 and t1.name <= t2.name GROUP BY t1.name HAVING count(t1.cat_id_1) <=2 ORDER BY `t1`.`cat_id_1` ASC) tu ON tc.cat_id = tu.cat_id_1")) 
+	{
+	    /* execute query */
+	    $stmt->execute();
+
+	    /* bind result variables */
+	    $stmt->bind_result($appcat, $appname, $appurl);
+
+	    $cates = [];
+	    while ($stmt->fetch()) {
+	    	$app = [];
+	    	$app["cat"] = $appcat;
+	    	$app["name"] = $appname;
+	    	$app["url"] = $appurl;
+	    	$cates[$appcat][] = $app;
+	    }
+
+		$stmt->fetch();
+
+		$stmt->close();
+	}
+	else
+	{
+		return -1;
+	}
+
+	mysqli_close($conn);
+	return $cates;
 }
 
 // **************************Functions***************************************

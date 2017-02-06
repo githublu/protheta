@@ -1,12 +1,12 @@
 
 <link rel="stylesheet" type="text/css" href="./app/me/me.css">
-<div ng-controller="MeCtrl" class="me">
+<div class="me">
   <div class="list-group">
     <div class="list-group-item row nav nav-pills" style="margin-right: 0px;">
 
 
             <div class="form-group">
-          <input type="text" class="form-control" placeholder="Search">
+          <input type="text" class="form-control" placeholder="Search" ng-model="search.name">
         </div>
         <!-- <p style="display:inline-block; margin: 0px;">Sort by most recent</p> -->
         <li role="presentation" class="dropdown"> 
@@ -27,7 +27,7 @@
         </li>
     </div>
   </div>
-  <div ng-repeat="app in apps | orderBy : orderKey">
+  <div ng-repeat="app in apps | orderBy : orderKey | filter: search">
   <div class="list-group-item">
     <a href={{app.url}} style="width:65%; display: inline-block;">
       <span class="list-group-item-heading">{{app.name}}</span>

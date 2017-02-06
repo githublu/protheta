@@ -6,7 +6,7 @@
  * - exposes the model to the template and provides event handlers
  */
 angular.module('MinionCraft')
-	.controller('MeCtrl', function TodoListCtrl($scope, $routeParams, $filter, $http) {
+	.controller('MeCtrl', function MeCtrl($scope, $routeParams, $filter, $http, store) {
 		'use strict';
 		$scope.apps = [];
 		$scope.order = [];
@@ -19,16 +19,24 @@ angular.module('MinionCraft')
 		//var init = await init();
 		GetApps();
 
-		$scope.RemoveUserApp = async function (name)
+		$scope.RemoveUserApp = function (name)
 		{
-			await remove(name);
+			store.deleteApp(name);
 			GetApps();
 		}
 
-		async function GetApps()
+		function GetApps()
 		{
-			$scope.apps = await readAll();
-			$scope.$apply();
+			$scope.apps = [];
+			store.getAllApps()
+			.then(function success(data){
+				for(var key in data)
+				{
+					$scope.apps.push(JSON.parse(data[key]));
+				}
+			},function error(){
+			});
+
 			console.log($scope.apps);
 		}
 
@@ -37,5 +45,4 @@ angular.module('MinionCraft')
 			$scope.orderKey = orderKey;
 			$scope.userOrder = $scope.order[$scope.orderKey];
 		}
-
 	});

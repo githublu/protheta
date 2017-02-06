@@ -30,7 +30,9 @@ angular.module('MinionCraft')
         // Add user preferences
         $scope.upsertPreference = function (app)
         {
-        	upsert(app);
+			store.addUserPreferences(app.name, app)
+				.then(function success(){}, function error(){
+				});
         }
 
 		$scope.status = '';
@@ -125,41 +127,52 @@ angular.module('MinionCraft')
 	        $scope.todo.tag = tag;
 		}
 
-		async function parseApps(systemApps)
+		function parseApps(systemApps)
 		{
-			var userApps = await readAll();
-			// Display userApps if they also exist in systemApps and sort by frequency
-			// Many userApps, and few system apps
-			var remainingApps = systemApps.slice();
-			var userSystemApps = [];
-			for (var i = systemApps.length -1 ; i >= 0; i--) {
-				for (var j = userApps.length -1; j >= 0; j--) {
-					if (systemApps[i].name == userApps[j].name) {
-						userSystemApps.push(userApps[j]);
-						remainingApps.splice(systemApps.indexOf(systemApps[i]), 1);
+			var userApps;
+			store.getAllApps()				
+			.then(function success(data){
+				userApps = [];
+				console.log(userApps);
+				for(var key in data)
+				{
+					userApps.push(JSON.parse(data[key]));
+				}
+
+				// Display userApps if they also exist in systemApps and sort by frequency
+				// Many userApps, and few system apps
+				var remainingApps = systemApps.slice();
+				var userSystemApps = [];
+				for (var i = systemApps.length -1 ; i >= 0; i--) {
+					for (var j = userApps.length -1; j >= 0; j--) {
+						if (systemApps[i].name == userApps[j].name) {
+							userSystemApps.push(userApps[j]);
+							remainingApps.splice(systemApps.indexOf(systemApps[i]), 1);
+						}
 					}
 				}
-			}
-			//systemApps.remove.apply(systemApps,userApps);
 
-			if (userSystemApps.length > 0) {
-				$scope.hasUserSystemApp = true;
-			}
-			else
-			{
-				$scope.hasUserSystemApp = false;
-			}
+				if (userSystemApps.length > 0) {
+					$scope.hasUserSystemApp = true;
+				}
+				else
+				{
+					$scope.hasUserSystemApp = false;
+				}
 
-			if (remainingApps.length > 0) {
-				$scope.hasSystemApp = true;
-			}
-			else
-			{
-				$scope.hasSystemApp = false;
-			}
+				if (remainingApps.length > 0) {
+					$scope.hasSystemApp = true;
+				}
+				else
+				{
+					$scope.hasSystemApp = false;
+				}
 
-        	$scope.apps = remainingApps;
-			$scope.userSystemApps = userSystemApps;
-			$scope.$apply();
+	        	$scope.apps = remainingApps;
+				$scope.userSystemApps = userSystemApps;
+				
+			}, function error(){
+			});
+
 		}
 	});

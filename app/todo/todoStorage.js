@@ -116,6 +116,7 @@ angular.module('MinionCraft')
 			todo: {},
 			todos: [],
 			todoKeys: [],
+			apps: [],
 
 			_getFromLocalStorage: function (key) {
 				return JSON.parse(localStorage.getItem(key) || '[]');
@@ -127,6 +128,20 @@ angular.module('MinionCraft')
 
 			_saveToLocalStorage: function (key, todos) {
 				localStorage.setItem(key, JSON.stringify(todos));
+			},
+
+			_saveAppToLocalStorage: function (appName, app) {
+				var existingApp = JSON.parse(localStorage.getItem(appName) || '[]');
+				app.lastUpdateTime = new Date().toLocaleString();
+				if (existingApp != []) {
+					app.frequency = app.frequency + 1;
+				}
+				else
+				{
+					app.frequency = 1;
+				}
+
+				localStorage.setItem(appName, JSON.stringify(app));
 			},
 
 			clearCompleted: function () {
@@ -156,6 +171,15 @@ angular.module('MinionCraft')
 				return deferred.promise;
 			},
 
+			deleteApp: function (appName) {
+				var deferred = $q.defer();
+
+				store._deleteFromLocalStorage(appName);
+				deferred.resolve(true);
+
+				return deferred.promise;
+			},
+
 			get: function (key) {
 				var deferred = $q.defer();
 
@@ -171,10 +195,24 @@ angular.module('MinionCraft')
 				store.todos = [];
 				for(var i=0, len=localStorage.length; i<len; i++) {
 					var key = localStorage.key(i);
+					if (key.length != 36) {continue;}
 				    store.todoKeys[key] = localStorage[key];
     				store.todos.push(localStorage[key]);
 				}
 				deferred.resolve(store.todos);
+
+				return deferred.promise;
+			},
+
+			getAllApps: function () {
+				var deferred = $q.defer();
+				var apps = [];
+				for(var i=0, len=localStorage.length; i<len; i++) {
+					var key = localStorage.key(i);
+					if (key.length == 36) {continue;}
+				    apps.push(localStorage[key]);
+				}
+				deferred.resolve(apps);
 
 				return deferred.promise;
 			},
@@ -192,11 +230,20 @@ angular.module('MinionCraft')
 
 			put: function (todo, index) {
 				var deferred = $q.defer();
-
 				store.todos[index] = todo;
 
 				store._saveToLocalStorage(index, todo);
 				deferred.resolve(store.todos);
+
+				return deferred.promise;
+			},
+
+			addUserPreferences: function(appName, app)
+			{
+				var deferred = $q.defer();
+
+				store._saveAppToLocalStorage(appName, app);
+				deferred.resolve(true);
 
 				return deferred.promise;
 			}

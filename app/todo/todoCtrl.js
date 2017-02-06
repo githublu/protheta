@@ -15,6 +15,10 @@ angular.module('MinionCraft')
 		//var todoKeys = store.todoKeys;
 		for(var key in store.todoKeys)
 		{
+			if (key.length != 36) 
+			{
+				continue;
+			}
 			var todo = JSON.parse(store.todoKeys[key]);
 			todo.key = key;
 			console.log(todo);

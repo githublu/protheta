@@ -1,10 +1,26 @@
 <div>
-  <div class="list-group">
-    <a href="#" class="list-group-item active">
+  <div class="list-group" ng-repeat="(catname,cat) in cats" ng-click="catname = !catname">
+      <a class="list-group-item active" ng-click="catname = !catname">
+        {{cat[0].cat}}
+      </a>
+      <div uib-collapse="catname">
+        <div ng-repeat="app in cat" >
+        <a href={{app.url}} class="list-group-item" ng-click="upsertPreference(app)">{{app.name}}</a>
+        </div>
+      <a class="list-group-item" ng-click="GetMoreWebAppsForCategory()" ng-show="cat.length == 2">Show More</a>
+      </div>
+  </div>
+
+
+
+<!--   <div class="list-group">
+    <a class="list-group-item active" ng-click="isCollapsed = !isCollapsed">
       Videos
     </a>
+    <div uib-collapse="isCollapsed">
     <a href="https://www.youtube.com/" class="list-group-item">YouTube</a>
     <a href="https://www.twitch.tv/" class="list-group-item">Twitch.tv</a>
+    </div>
   </div>
   <div class="list-group">
     <a href="#" class="list-group-item active">
@@ -50,5 +66,17 @@
     <a href="https://translate.google.com/" class="list-group-item">Google Translate</a>
     <a href="http://forecast.io/" class="list-group-item">Weather</a>
     <a href="https://www.cars.com/" class="list-group-item">Cars.com</a>
-  </div>
+  </div> -->
 </div>
+
+<style type="text/css">
+  .list-group
+  {
+    margin-bottom: 4px;
+  }
+
+  .list-group-item:first-child
+  {
+    border-radius: 0px
+  }
+</style>
