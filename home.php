@@ -11,8 +11,11 @@
 <link rel="stylesheet" type="text/css" href="./app/start/startStyle.css">
 <link rel="stylesheet" type="text/css" href="./app/chooseLevel/chooseLevelStyle.css">
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
-
+<script type="text/javascript">
+    document.addEventListener("touchstart", function(){}, true);
+</script>
 </head>
+
 
 <body ng-app="MinionCraft" class="gameBody">
     <div ng-view></div>

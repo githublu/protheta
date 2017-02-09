@@ -69,6 +69,7 @@
     border: none; /* Mobile Safari */
     -webkit-appearance: none;
     appearance: none;
+    outline: none;
 }
 
 .toggle:after {
@@ -145,4 +146,18 @@ textarea
     color: #A0A19F;
     bottom: 12px;
     position: absolute;
+}
+
+/*
+    Hack to remove background from Mobile Safari.
+    Can't use it globally since it destroys checkboxes in Firefox
+*/
+@media screen and (-webkit-min-device-pixel-ratio:0) {
+    .toggle {
+        background: none;
+    }
+
+    .toggle {
+        height: 40px;
+    }
 }
